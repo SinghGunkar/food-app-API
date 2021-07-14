@@ -13,6 +13,7 @@ const connectDB = async () => {
 
     console.log(
         `MongoDB Connected: ${connection.connection.host}`.green.bold
+            .underline
     )
 }
 

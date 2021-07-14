@@ -1,59 +1,100 @@
+const Favorite = require("../models/Favorite")
+const colors = require("colors")
+const ErrorResponse = require("../utils/errorResponse")
+const asyncHandler = require("../middleware/async")
+
 /* 
 @desc    Get all favorites
 @route   Get /FoodAPI/v1/favorites
 @access  Public 
 */
-exports.getFavorites = (req, res, next) => {
+exports.getFavorites = asyncHandler(async (req, res, next) => {
+    const favs = await Favorite.find()
+
     res.status(200).json({
         success: true,
-        action: "Get all favorites"
+        data: favs,
+        action: "Got all favorites"
     })
-}
+})
 
 /* 
 @desc    Get all a favorite
 @route   Get /FoodAPI/v1/favorites/:id
 @access  Public 
 */
-exports.getFavorite = (req, res, next) => {
+exports.getFavorite = asyncHandler(async (req, res, next) => {
+    const fav = await Favorite.findById(req.params.id)
+
+    if (!fav) {
+        return new ErrorResponse(
+            `Favorite with id ${req.params.id} not found`,
+            404
+        )
+    }
+
     res.status(200).json({
         success: true,
-        action: `Get favorite with id ${req.params.id}`
+        data: fav,
+        action: `Got favorite with id ${req.params.id}`
     })
-}
+})
 
 /* 
 @desc    Create a new favorite
 @route   POST /FoodAPI/v1/favorites/:id
 @access  Private 
 */
-exports.createFavorite = (req, res, next) => {
-    res.status(200).json({
+exports.createFavorite = asyncHandler(async (req, res, next) => {
+    const fav = await Favorite.create(req.body)
+    res.status(201).json({
         success: true,
-        action: "Create a new favorite"
+        data: fav,
+        action: "Created a new favorite"
     })
-}
+})
 
 /* 
 @desc    Update an existing favorite
 @route   PUT /FoodAPI/v1/favorites/:id
 @access  Private 
 */
-exports.updateFavorite = (req, res, next) => {
+exports.updateFavorite = asyncHandler(async (req, res, next) => {
+    const fav = await Favorite.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+            new: true,
+            runValidators: true
+        }
+    )
+
+    if (!fav) {
+        return res.status(400).json({ success: false })
+    }
+
     res.status(200).json({
         success: true,
-        action: `Update an existing favorite with id ${req.params.id}`
+        data: fav,
+        action: `Updated an existing favorite with id ${req.params.id}`
     })
-}
+})
 
 /* 
 @desc    Delete an existing favorite
 @route   DELETE /FoodAPI/v1/favorites/:id
 @access  Private 
 */
-exports.deleteFavorite = (req, res, next) => {
+exports.deleteFavorite = asyncHandler(async (req, res, next) => {
+    const fav = await Favorite.findByIdAndDelete(req.params.id)
+
+    if (!fav) {
+        return res.status(400).json({ success: false })
+    }
+
     res.status(200).json({
         success: true,
-        action: `Delete an existing favorite with id ${req.params.id}`
+        data: fav,
+        action: `Deleted an existing favorite with id ${req.params.id}`
     })
-}
+})

@@ -5,6 +5,7 @@ const logger = require("./middleware/logger")
 const morgan = require("morgan")
 const connectDB = require("./config/db")
 const colors = require("colors")
+const errorHandler = require("./middleware/error")
 
 // Route files
 const favorites = require("./routes/favorites")
@@ -17,6 +18,9 @@ connectDB()
 
 const app = express()
 
+// Body parser middleware (needed for JSON objects)
+app.use(express.json())
+
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"))
@@ -24,6 +28,9 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount router(s) with default endpoint
 app.use("/FoodAPI/v1/favorites", favorites)
+
+// Error handler middleware
+app.use(errorHandler)
 
 app.listen()
 
@@ -33,7 +40,7 @@ const server = app.listen(
     PORT,
     console.log(
         `Server running in ${process.env.NODE_ENV} mode on ${PORT}`
-            .green.bold
+            .green.bold.underline
     )
 )
 
