@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
+const bcrypt = require("bcryptjs")
 
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Please enter a name"],
-        unique: true,
-        match: []
+        unique: true
     },
     email: {
         type: String,
@@ -29,4 +29,6 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("user", UserSchema)
+// encryt password using bcryptjs
+
+module.exports = mongoose.model("User", UserSchema)

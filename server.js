@@ -9,6 +9,7 @@ const errorHandler = require("./middleware/error")
 
 // Route files
 const favorites = require("./routes/favorites")
+const auth = require("./routes/auth")
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" })
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount router(s) with default endpoint
 app.use("/FoodAPI/v1/favorites", favorites)
+app.use("/FoodAPI/v1/auth", auth)
 
 // Error handler middleware
 app.use(errorHandler)
