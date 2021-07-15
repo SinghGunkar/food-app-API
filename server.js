@@ -6,6 +6,7 @@ const morgan = require("morgan")
 const connectDB = require("./config/db")
 const colors = require("colors")
 const errorHandler = require("./middleware/error")
+const cookieParser = require("cookie-parser")
 
 // Route files
 const favorites = require("./routes/favorites")
@@ -18,6 +19,9 @@ dotenv.config({ path: "./config/config.env" })
 connectDB()
 
 const app = express()
+
+// Cookie parser
+app.use(cookieParser())
 
 // Body parser middleware (needed for JSON objects)
 app.use(express.json())
