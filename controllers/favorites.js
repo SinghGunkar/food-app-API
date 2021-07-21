@@ -46,7 +46,11 @@ exports.getFavorite = asyncHandler(async (req, res, next) => {
 @access  Private 
 */
 exports.createFavorite = asyncHandler(async (req, res, next) => {
+    // Add user to req.body
+    req.body.user = req.user._id
+
     const fav = await Favorite.create(req.body)
+
     res.status(201).json({
         success: true,
         data: fav,

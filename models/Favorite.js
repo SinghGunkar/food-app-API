@@ -4,9 +4,16 @@ const FavoriteSchema = new mongoose.Schema({
     text: {
         type: String,
         required: [true, "Please add a favorite"],
-        unique: true,
         trim: true,
-        maxlength: [50, "Favorite cannot be more than 50 characters"]
+        maxlength: [
+            100,
+            "Favorite cannot be more than 50 characters"
+        ],
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+            required: true
+        }
     }
 })
 

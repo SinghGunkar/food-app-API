@@ -90,7 +90,6 @@ const sendTokenResponse = (user, statusCode, res) => {
 @access  Private
 */
 exports.getMe = asyncHandler(async (req, res, next) => {
-    console.log(req)
     const user = await User.findById(req.user.id)
 
     res.status(200).json({

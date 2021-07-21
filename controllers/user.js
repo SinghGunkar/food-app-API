@@ -1,5 +1,6 @@
 let UserSchema = require("../models/UserAccount")
 const asyncHandler = require("../middleware/async")
+const ErrorResponse = require("../utils/errorResponse")
 
 /* 
 @desc    Get all favorites for a user
@@ -26,39 +27,60 @@ exports.getAllFavorites = asyncHandler(async (req, res, next) => {
 */
 exports.createFavoriteForUser = asyncHandler(
     async (req, res, next) => {
-        const User = await UserSchema.findOneAndUpdate(
+        await UserSchema.findOneAndUpdate(
             { _id: req.body.id },
             { $addToSet: { favorites: req.body.text } }
         )
 
-        console.log(User)
-
         res.status(201).json({
             success: true,
-            data: "create fav for user",
-            action: `Created a new favorite for the user`
+            action: `Created a new favorite for the user: ${req.body.text}`
         })
     }
 )
 
 /* 
 @desc    Delete a favorite for a user
-@route   DELETE /FoodAPI/v1/:text
+@route   DELETE /FoodAPI/v1/deleteFavorite
 @access  Private 
 */
-exports.createFavoriteForUser = asyncHandler(
+exports.deleteFavoriteForUser = asyncHandler(
     async (req, res, next) => {
-        const User = await UserSchema.findOneAndUpdate(
+        await UserSchema.findOneAndUpdate(
             { _id: req.body.id },
-            { $addToSet: { favorites: req.body.text } }
+            { $pull: { favorites: req.body.text } }
         )
-
-        console.log(User)
 
         res.status(201).json({
             success: true,
-            data: "create fav for user",
-            action: `Created a new favorite for the user`
+            data: "Removed a favorite for the user",
+            action: `Removed an existing favorite for the user: ${req.body.text}`
+        })
+    }
+)
+
+/* 
+@desc    Updates a favorite for a user
+@route   PUT /FoodAPI/v1/updateUserFavorite
+@access  Private 
+*/
+exports.updateFavoriteForUser = asyncHandler(
+    async (req, res, next) => {
+        const User = await UserSchema.findOneAndUpdate(
+            {
+                _id: req.body.id,
+                favorites: req.body.existingFavorite.toString()
+            },
+            {
+                $set: {
+                    "favorites.$": req.body.updatedFavorite.toString()
+                }
+            }
+        )
+
+        res.status(201).json({
+            success: true,
+            action: `Updated an existing favorite: ${req.body.existingFavorite} => ${req.body.updatedFavorite}`
         })
     }
 )

@@ -17,7 +17,7 @@ router
 
 router
     .route("/:id")
-    .get(getFavorite)
+    .get(protect, getFavorite)
     .put(protect, updateFavorite)
     .delete(protect, deleteFavorite)
 

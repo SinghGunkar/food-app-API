@@ -26,8 +26,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter a password"],
         minlength: 6,
-        select: false // won't show password
-    }
+        select: false
+    },
+    favorites: [
+        {
+            type: String,
+            ref: "Favorite",
+            uniqueID: mongoose.ObjectId
+        }
+    ]
 })
 
 // Encrypt password using bcrypt
