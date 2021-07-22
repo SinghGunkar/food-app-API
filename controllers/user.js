@@ -1,6 +1,7 @@
 let UserSchema = require("../models/UserAccount")
 const asyncHandler = require("../middleware/async")
 const ErrorResponse = require("../utils/errorResponse")
+const mongoose = require("mongoose")
 
 /* 
 @desc    Get all favorites for a user
@@ -27,10 +28,16 @@ exports.getAllFavorites = asyncHandler(async (req, res, next) => {
 */
 exports.createFavoriteForUser = asyncHandler(
     async (req, res, next) => {
-        await UserSchema.findOneAndUpdate(
-            { _id: req.body.id },
-            { $addToSet: { favorites: req.body.text } }
+        const favObject = { text: req.body.text }
+
+        const user = await UserSchema.findOneAndUpdate(
+            { _id: req.body.user_id },
+            { $push: { favorites: favObject } }
         )
+
+        if (!user) {
+            return res.status(400).json({ success: false })
+        }
 
         res.status(201).json({
             success: true,
@@ -46,15 +53,18 @@ exports.createFavoriteForUser = asyncHandler(
 */
 exports.deleteFavoriteForUser = asyncHandler(
     async (req, res, next) => {
-        await UserSchema.findOneAndUpdate(
-            { _id: req.body.id },
-            { $pull: { favorites: req.body.text } }
+        const user = await UserSchema.findOneAndUpdate(
+            { _id: mongoose.Types.ObjectId(req.body.user_id) },
+            { $pull: { favorites: { _id: req.body.fav_id } } }
         )
+
+        if (!user) {
+            return res.status(400).json({ success: false })
+        }
 
         res.status(201).json({
             success: true,
-            data: "Removed a favorite for the user",
-            action: `Removed an existing favorite for the user: ${req.body.text}`
+            action: "Removed an existing favorite for the user"
         })
     }
 )
@@ -66,17 +76,22 @@ exports.deleteFavoriteForUser = asyncHandler(
 */
 exports.updateFavoriteForUser = asyncHandler(
     async (req, res, next) => {
-        const User = await UserSchema.findOneAndUpdate(
-            {
-                _id: req.body.id,
-                favorites: req.body.existingFavorite.toString()
-            },
-            {
-                $set: {
-                    "favorites.$": req.body.updatedFavorite.toString()
-                }
-            }
-        )
+        const query = {
+            _id: mongoose.Types.ObjectId(req.body.user_id),
+            "favorites._id": req.body.fav_id.toString()
+        }
+
+        const update = {
+            $set: { "favorites.$.text": req.body.updatedFavorite }
+        }
+
+        const user = await UserSchema.findOneAndUpdate(query, update)
+
+        console.log(user)
+
+        if (!user) {
+            return res.status(400).json({ success: false })
+        }
 
         res.status(201).json({
             success: true,

@@ -9,7 +9,7 @@ const errorHandler = (err, req, res, next) => {
 
     // Mongoose bad ObjectID
     if (err.name === "CastError") {
-        const message = `Favorite not found with id of ${err.value}`
+        const message = `User not found with id of ${err.value}`
         error = new ErrorResponse(message, 404)
     }
 

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const FavoriteSchema = require("../models/Favorite")
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -28,13 +29,7 @@ const UserSchema = new mongoose.Schema({
         minlength: 6,
         select: false
     },
-    favorites: [
-        {
-            type: String,
-            ref: "Favorite",
-            uniqueID: mongoose.ObjectId
-        }
-    ]
+    favorites: [FavoriteSchema]
 })
 
 // Encrypt password using bcrypt

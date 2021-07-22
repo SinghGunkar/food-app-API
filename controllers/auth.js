@@ -15,7 +15,8 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         name,
         email,
         role,
-        password
+        password,
+        favorites: []
     })
 
     // Send cookie

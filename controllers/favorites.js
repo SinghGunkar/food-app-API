@@ -1,4 +1,5 @@
 const Favorite = require("../models/Favorite")
+const UserSchema = require("../models/UserAccount")
 const colors = require("colors")
 const ErrorResponse = require("../utils/errorResponse")
 const asyncHandler = require("../middleware/async")
