@@ -11,6 +11,7 @@ const mongoSanitize = require("express-mongo-sanitize")
 const helmet = require("helmet")
 const xss = require("xss-clean")
 const hpp = require("hpp")
+const cors = require("cors")
 
 // Route files
 const favorites = require("./routes/favorites")
@@ -45,6 +46,9 @@ app.use(xss())
 
 // Prevent http param pollution
 app.use(hpp())
+
+// Enable cors for chrome
+app.use(cors())
 
 // Mount router(s) with default endpoint
 app.use("/FoodAPI/v1/favorites", favorites)
