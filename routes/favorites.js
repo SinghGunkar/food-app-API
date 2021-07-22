@@ -1,3 +1,9 @@
+/* 
+This code in this file is not used for any API functionality. 
+I have kept this file in the project for me personal reference 
+- GS
+ */
+
 const express = require("express")
 const {
     getFavorites,

@@ -8,6 +8,9 @@ const colors = require("colors")
 const errorHandler = require("./middleware/error")
 const cookieParser = require("cookie-parser")
 const mongoSanitize = require("express-mongo-sanitize")
+const helmet = require("helmet")
+const xss = require("xss-clean")
+const hpp = require("hpp")
 
 // Route files
 const favorites = require("./routes/favorites")
@@ -35,6 +38,13 @@ if (process.env.NODE_ENV === "development") {
 
 // Prevent noSQL injection and Sanitize Data
 app.use(mongoSanitize())
+
+// Set security headers and prevent XSS attacks
+app.use(helmet())
+app.use(xss())
+
+// Prevent http param pollution
+app.use(hpp())
 
 // Mount router(s) with default endpoint
 app.use("/FoodAPI/v1/favorites", favorites)
