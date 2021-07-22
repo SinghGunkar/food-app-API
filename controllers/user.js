@@ -9,10 +9,11 @@ const mongoose = require("mongoose")
 @access  Private 
 */
 exports.getAllFavorites = asyncHandler(async (req, res, next) => {
-    // find user
-    let user = await UserSchema.find({
+    const query = {
         email: req.body.email
-    })
+    }
+
+    let user = await UserSchema.find(query)
 
     res.status(200).json({
         success: true,
@@ -29,11 +30,10 @@ exports.getAllFavorites = asyncHandler(async (req, res, next) => {
 exports.createFavoriteForUser = asyncHandler(
     async (req, res, next) => {
         const favObject = { text: req.body.text }
-
-        const user = await UserSchema.findOneAndUpdate(
-            { _id: req.body.user_id },
-            { $push: { favorites: favObject } }
-        )
+        const query = { _id: req.body.user_id }
+        const update = { $push: { favorites: favObject } }
+        console.log(req.body)
+        const user = await UserSchema.findOneAndUpdate(query, update)
 
         if (!user) {
             return res.status(400).json({ success: false })
@@ -53,10 +53,14 @@ exports.createFavoriteForUser = asyncHandler(
 */
 exports.deleteFavoriteForUser = asyncHandler(
     async (req, res, next) => {
-        const user = await UserSchema.findOneAndUpdate(
-            { _id: mongoose.Types.ObjectId(req.body.user_id) },
-            { $pull: { favorites: { _id: req.body.fav_id } } }
-        )
+        const query = {
+            _id: mongoose.Types.ObjectId(req.body.user_id)
+        }
+        const update = {
+            $pull: { favorites: { _id: req.body.fav_id } }
+        }
+
+        const user = await UserSchema.findOneAndUpdate(query, update)
 
         if (!user) {
             return res.status(400).json({ success: false })
@@ -87,15 +91,13 @@ exports.updateFavoriteForUser = asyncHandler(
 
         const user = await UserSchema.findOneAndUpdate(query, update)
 
-        console.log(user)
-
         if (!user) {
             return res.status(400).json({ success: false })
         }
 
         res.status(201).json({
             success: true,
-            action: `Updated an existing favorite: ${req.body.existingFavorite} => ${req.body.updatedFavorite}`
+            action: `Updated an existing favorite`
         })
     }
 )

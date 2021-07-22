@@ -7,6 +7,7 @@ const connectDB = require("./config/db")
 const colors = require("colors")
 const errorHandler = require("./middleware/error")
 const cookieParser = require("cookie-parser")
+const mongoSanitize = require("express-mongo-sanitize")
 
 // Route files
 const favorites = require("./routes/favorites")
@@ -31,6 +32,9 @@ app.use(express.json())
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"))
 }
+
+// Prevent noSQL injection and Sanitize Data
+app.use(mongoSanitize())
 
 // Mount router(s) with default endpoint
 app.use("/FoodAPI/v1/favorites", favorites)
