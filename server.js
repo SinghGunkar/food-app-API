@@ -14,7 +14,6 @@ const hpp = require("hpp")
 const cors = require("cors")
 
 // Route files
-const favorites = require("./routes/favorites")
 const auth = require("./routes/auth")
 const user = require("./routes/user")
 
