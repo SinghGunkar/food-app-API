@@ -51,7 +51,6 @@ app.use(hpp())
 app.use(cors())
 
 // Mount router(s) with default endpoint
-app.use("/FoodAPI/v1/favorites", favorites)
 app.use("/FoodAPI/v1/auth", auth)
 app.use("/FoodAPI/v1/user", user)
 

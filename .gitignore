@@ -1,2 +1,4 @@
 node_modules
 config/config.env
+controllers/favorites.js
+routes/favorites.js

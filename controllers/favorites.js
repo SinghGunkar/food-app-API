@@ -1,6 +1,6 @@
 /* 
 This code in this file is not used for any API functionality. 
-I have kept this file in the project for me personal reference.
+I have kept this file in the project for my personal reference.
 - GS
  */
 
