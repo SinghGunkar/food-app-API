@@ -1,7 +1,32 @@
 # Food App API
 
-Backend API for Food App
+#### Backend API for Food App
+
+-   Usage: Rename "config/config.env.env" to "config/config.env" and update the values/settings to your own
+-   I've deployed the API on July 23, 2021 via Digital Ocean, however the API will not be live after on September 23, 2021
+-   Below is a screenshot of the API documentation, further documentation is below
+
 ![](image.png)
+
+## Usage
+
+###### Install dependenies
+
+```
+npm install
+```
+
+###### Run App
+
+```
+# Run in development mode
+npm run dev
+# Run in production mode
+npm start
+```
+
+Version 1.0.0
+License: MIT
 
 ## Indices
 
@@ -270,5 +295,3 @@ URL: {{URL}}/FoodAPI/v1/user/updateFavoriteForUser
 ---
 
 [Back to top](#food-app-api)
-
-> Made with &#9829; by [thedevsaddam](https://github.com/thedevsaddam) | Generated at: 2021-07-22 06:05:54 by [docgen](https://github.com/thedevsaddam/docgen)
