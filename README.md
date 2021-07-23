@@ -4,7 +4,7 @@
 
 -   Usage: Rename "config/config.env.env" to "config/config.env" and update the values/settings to your own
 -   I've deployed the API on July 23, 2021 via Digital Ocean, however the API will not be live after September 23, 2021
--   Below is a screenshot of the API documentation, further documentation is below
+-   Below is a screenshot of the API documentation which can be found [here](http://143.198.157.149/), further documentation is below
 
 ![](image.png)
 
