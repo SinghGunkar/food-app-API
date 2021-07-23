@@ -10,7 +10,7 @@
 
 ## Usage
 
-###### Install dependenie(s)
+###### Install dependencie(s)
 
 ```
 npm install
