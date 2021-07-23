@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(mongoSanitize())
 
 // Set security headers and prevent XSS attacks
-app.use(helmet())
+app.use(helmet({ contentSecurityPolicy: false }))
 app.use(xss())
 
 // Prevent http param pollution
@@ -48,6 +48,9 @@ app.use(hpp())
 
 // Enable cors for chrome
 app.use(cors())
+
+// Serving static files
+app.use(express.static("public"))
 
 // Mount router(s) with default endpoint
 app.use("/FoodAPI/v1/auth", auth)
